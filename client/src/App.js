@@ -47,15 +47,15 @@ const App = () => {
             <div className="fixed md:static bg-main-bg dark:bg-main-dark-bg navbar w-full">
               <Navbar />
             </div>
-          </div>
 
-          <div>
-            <Routes>
-              <Route path="/voating" element={<ConductVoting />} />
-              <Route path="/roll" element={<LetsRoll />} />
-              <Route path="/participant" element={<Participant />} />
-              <Route path="/chart" element={<Charts />} />
-            </Routes>
+            <div>
+              <Routes>
+                <Route path="/Conduct-Voting" element={<ConductVoting />} />
+                <Route path="/roll" element={<LetsRoll />} />
+                <Route path="/participant" element={<Participant />} />
+                <Route path="/pie" element={<Charts />} />
+              </Routes>
+            </div>
           </div>
         </div>
       </BrowserRouter>
