@@ -1,15 +1,32 @@
 import React from "react";
-import { pieChartData } from "../../data/dummy";
+// import {pieChartData} from '../../data/dummy.js';
 import {
   Header,
   Charts as PieChart,
   Questions,
   SpinWheel,
 } from "../../components";
-
 import { quesList } from "../../components/charts/Questions";
+import axios from "axios";
 
 const car = ["a", "b", "d"];
+
+const dataOfPieChart = [];
+
+const fetchDataOfPieChart = async () => {
+  //Geting pie chart data from backend.
+  const getData = await axios.get("http://localhost:8000/spinner");
+  //Assigning data to pieChartData variable.
+  getData.data[0].spinner.map((data) => {
+    dataOfPieChart.push(data);
+  });
+};
+
+fetchDataOfPieChart();
+console.log(dataOfPieChart);
+
+const addNewData = async () => {};
+
 const Charts = () => (
   <>
     <div className="m-4 md:m-10 mt-24 p-10 bg-white dark:bg-secondary-dark-bg rounded-3xl">
@@ -19,7 +36,7 @@ const Charts = () => (
           <div className=" grid grid-cols-1 gap-4 place-items-center mt-8">
             <PieChart
               id="Company Overview"
-              data={pieChartData}
+              data={dataOfPieChart}
               legendVisibility={true}
               legendPos="Bottom"
               height="full"
