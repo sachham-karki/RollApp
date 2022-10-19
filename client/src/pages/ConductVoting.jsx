@@ -33,12 +33,12 @@ const ConductVoting = () => {
           />
         </div>
       </div>
-      <div className="mt-[400px] mb-20 w-full  flex justify-center ">
+      {/* <div className="mt-[400px] mb-20 w-full  flex justify-center ">
         <SpinWheel />
-      </div>
-      <div className=" mb-10 flex justify-center">
-        {" "}
-        {/* <div className="absolute">
+      </div> */}
+      {/* <div className=" mb-10 flex justify-center">
+        {" "} */}
+      {/* <div className="absolute">
           <Button
             color="white"
             bgColor={currentColor}
@@ -48,8 +48,8 @@ const ConductVoting = () => {
             padX={10}
           />
         </div> */}
-      </div>
     </div>
+    // </div>
   );
 };
 
