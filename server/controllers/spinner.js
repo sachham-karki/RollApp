@@ -16,17 +16,10 @@ const body = [
   { x: "License", y: 11, text: "11%" },
 ];
 
-
-
-
-
-
-
-
-
 const postSpinnerData = async (req, res) => {
   try {
     console.log(req.body);
+    await spinnerModel.deleteOne();
 
     const getData = req.body.Items.map((getX) => {
       return { x: getX };
@@ -35,25 +28,13 @@ const postSpinnerData = async (req, res) => {
     const spinnerData = await spinnerModel.create({
       spinner: getData,
     });
-    res.json({ sucess: true, data: spinnerData });
-    console.log(spinnerData);
+    res.redirect("http://localhost:3000/pie");
+    // res.json({ sucess: true, data: spinnerData });
+    // console.log(spinnerData);
   } catch (error) {
     console.log(error);
   }
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 const changeSpinnerData = async (req, res) => {
   try {
@@ -63,6 +44,16 @@ const changeSpinnerData = async (req, res) => {
       { $inc: { "spinner.$.y": 1 } }
     );
     res.json(spinnerData);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const deleteSpinnerData = async (req, res) => {
+  try {
+    //Deleting the collections.
+    await spinnerModel.deleteOne();
+    res.send("Deleted");
   } catch (error) {
     console.log(error);
   }
@@ -108,4 +99,9 @@ const changeSpinnerData = async (req, res) => {
 //   }
 // );
 
-module.exports = { getSpinnerData, postSpinnerData, changeSpinnerData };
+module.exports = {
+  getSpinnerData,
+  postSpinnerData,
+  changeSpinnerData,
+  deleteSpinnerData,
+};

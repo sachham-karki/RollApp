@@ -8,11 +8,11 @@ const spinnerSchema = new mongoose.Schema({
       },
       y: {
         type: Number,
-        default:0
+        default: 1,
       },
       text: {
         type: String,
-        default:"0%"
+        default: "10%",
       },
     },
   ],
