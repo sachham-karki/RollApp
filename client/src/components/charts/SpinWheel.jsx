@@ -46,7 +46,7 @@ const SpinWheel = () => {
         easeOut: 1,
         // spinning: true
       });
-    }, 5500);
+    }, 5000);
 
     //calcalute result after wheel stops spinning
     // setTimeout(() => {
