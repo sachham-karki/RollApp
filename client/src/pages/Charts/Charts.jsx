@@ -27,48 +27,54 @@ console.log(dataOfPieChart);
 
 const addNewData = async () => {};
 
-const Charts = () => (
-  <>
-    <div className="m-4 md:m-10 mt-24 p-10 bg-white dark:bg-secondary-dark-bg rounded-3xl">
-      <div>
-        <Header category="Pie-Chart" title="Live View" />
-        <div className="w-full mb-20">
-          <div className=" grid grid-cols-1 gap-4 place-items-center mt-8">
-            <PieChart
-              id="Company Overview"
-              data={dataOfPieChart}
-              legendVisibility={true}
-              legendPos="Bottom"
-              height="full"
-            />
+const Charts = () => {
+  const vote = (opt) => axios.put(`/api/spinner/${opt}`);
 
-            {quesList.map((items) => (
-              <div key={items.question}>
-                <p className="text-gray-400 m-3 mt-4 uppercase">
-                  {items.question}
-                </p>
+  return (
+    <>
+      <div className="m-4 md:m-10 mt-24 p-10 bg-white dark:bg-secondary-dark-bg rounded-3xl">
+        <div>
+          <Header category="Pie-Chart" title="Live View" />
+          <div className="w-full mb-20">
+            <div className=" grid grid-cols-1 gap-4 place-items-center mt-8">
+              <PieChart
+                id="Company Overview"
+                data={dataOfPieChart}
+                legendVisibility={true}
+                legendPos="Bottom"
+                height="full"
+              />
 
-                {items.options.map((opt) => (
-                  <p className=" grid grid-cols-1 gap-4 place-items-center mt-8">
-                    {" "}
-                    <Questions text={opt} />
+              {quesList.map((items) => (
+                <div key={items.question}>
+                  <p className="text-gray-400 m-3 mt-4 uppercase">
+                    {items.question}
                   </p>
-                ))}
-              </div>
-            ))}
+
+                  {items.options.map((opt) => (
+                    <p className=" grid grid-cols-1 gap-4 place-items-center mt-8">
+                      {" "}
+                      <div onClick={vote.bind(this, opt)}>
+                        <Questions text={opt} />
+                      </div>
+                    </p>
+                  ))}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
-      <div className="mt-60">
-        <div className=" truncate  w-full  flex justify-center ">
-          <SpinWheel />
+        <div className="mt-60">
+          <div className=" truncate  w-full  flex justify-center ">
+            <SpinWheel />
+          </div>
+          <span className=" absolute top-40 mt-[1150px] ">
+            <Header category="Rolling Section" title="Let's Roll " />
+          </span>{" "}
         </div>
-        <span className=" absolute top-40 mt-[1150px] ">
-          <Header category="Rolling Section" title="Let's Roll " />
-        </span>{" "}
       </div>
-    </div>
-  </>
-);
+    </>
+  );
+};
 
 export default Charts;
