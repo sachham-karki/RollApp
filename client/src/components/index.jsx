@@ -10,3 +10,4 @@ export { default as Charts } from "./charts/Charts";
 export { default as Questions } from "./charts/Questions";
 export { default as UserProfile } from "./UserProfile";
 export { default as SpinWheel } from "./charts/SpinWheel";
+export { default as Form } from "./charts/Form";

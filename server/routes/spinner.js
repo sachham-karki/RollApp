@@ -15,6 +15,6 @@ router
   .post(postSpinnerData)
   .delete(deleteSpinnerData);
 
-router.route("/spinner/:id").patch(changeSpinnerData);
+router.route("/api/spinner/:id").patch(changeSpinnerData);
 
 module.exports = router;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 // import {pieChartData} from '../../data/dummy.js';
 import {
   Header,
@@ -9,26 +9,35 @@ import {
 import { quesList } from "../../components/charts/Questions";
 import axios from "axios";
 
-const car = ["a", "b", "d"];
+import io from "socket.io-client";
 
-const dataOfPieChart = [];
-
-const fetchDataOfPieChart = async () => {
-  //Geting pie chart data from backend.
-  const getData = await axios.get("http://localhost:8000/spinner");
-  //Assigning data to pieChartData variable.
-  getData.data[0].spinner.map((data) => {
-    dataOfPieChart.push(data);
-  });
-};
-
-fetchDataOfPieChart();
-console.log(dataOfPieChart);
+const socket = io.connect("http://localhost:8000");
 
 const addNewData = async () => {};
 
 const Charts = () => {
-  const vote = (opt) => axios.put(`/api/spinner/${opt}`);
+  let [dataOfPieChart, setData] = useState({ data: [] });
+
+  useEffect(() => {
+    const loadData = async () => {
+      //Geting pie chart data from backend.
+      const getData = await axios.get("http://localhost:8000/spinner");
+      //Assigning data to pieChartData variable.
+      setData(getData.data[0].spinner);
+    };
+    loadData();
+  }, []);
+
+  const vote = async (opt) => {
+    socket.on("connection");
+    //Sending data to backend and invoke the function called voteCountUpdate using emit method.
+    socket.emit("voteCountUpdate", opt);
+  };
+
+  socket.on("message", (data) => {
+    //Replacing the data of pie chart with update value received from backend.
+    setData((dataOfPieChart = data[0].spinner));
+  });
 
   return (
     <>
@@ -36,15 +45,14 @@ const Charts = () => {
         <div>
           <Header category="Pie-Chart" title="Live View" />
           <div className="w-full mb-20">
+            <PieChart
+              id="Company Overview"
+              data={dataOfPieChart}
+              legendVisibility={true}
+              legendPos="Bottom"
+              height="full"
+            />
             <div className=" grid grid-cols-1 gap-4 place-items-center mt-8">
-              <PieChart
-                id="Company Overview"
-                data={dataOfPieChart}
-                legendVisibility={true}
-                legendPos="Bottom"
-                height="full"
-              />
-
               {quesList.map((items) => (
                 <div key={items.question}>
                   <p className="text-gray-400 m-3 mt-4 uppercase">

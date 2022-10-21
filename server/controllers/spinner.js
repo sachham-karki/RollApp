@@ -38,12 +38,16 @@ const postSpinnerData = async (req, res) => {
 
 const changeSpinnerData = async (req, res) => {
   try {
+    const { id } = req.params;
     const spinnerData = await spinnerModel.findOneAndUpdate(
-      { "spinner.x": "labour" },
+      { "spinner.x": id },
       // { $set: { "spinner.$.y": req.body.y, "spinner.$.text": req.body.text } },
       { $inc: { "spinner.$.y": 1 } }
     );
-    res.json(spinnerData);
+    const getUpdateSpinnerData = await spinnerModel.find({});
+    console.log(getUpdateSpinnerData[0].spinner);
+    res.json(getUpdateSpinnerData);
+    // res.json(spinnerData);
   } catch (error) {
     console.log(error);
   }
