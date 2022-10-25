@@ -48,6 +48,7 @@ io.sockets.on("connection", (socket) => {
   socket.on("disconnect", () => {
     console.log("user disconnected with " + socket.id);
   });
+
   socket.on("voteCountUpdate", async (id) => {
     try {
       //Matching the id with

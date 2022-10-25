@@ -1,15 +1,21 @@
 import React from "react";
 // import { useState } from "react";
-import axios from "axios";
-import { Form } from "../components";
+
+import { FormComp } from "../components";
 
 export default function Participant() {
   return (
     <form action="/spinner" method="POST">
-      <input type="text" placeholder="Items" name="Items" />
-      <input type="text" placeholder="Items" name="Items" />
+      <FormComp />
 
-      <button>Submit</button>
+      <button className="m-8 ml-20 block border">Submit</button>
     </form>
+
+    // <form action="/spinner" method="POST">
+    //   <input type="text" placeholder="Items" name="Items" />
+    //   <input type="text" placeholder="Items" name="Items" />
+
+    //   <button>Submit</button>
+    // </form>
   );
 }

@@ -17,4 +17,7 @@ router
 
 router.route("/api/spinner/:id").patch(changeSpinnerData);
 
+//sk...
+router.route("/candiateForm");
+
 module.exports = router;

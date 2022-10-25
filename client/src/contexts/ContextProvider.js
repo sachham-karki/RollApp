@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useState } from "react";
-
+import io from "socket.io-client";
+import { pieChartData } from "../data/dummy";
+const socket = io.connect("http://localhost:8000");
 const StateContext = createContext();
 
 const initialState = {
@@ -16,6 +18,7 @@ export const ContextProvider = ({ children }) => {
   const [currentColor, setCurrentColor] = useState("#03C9D7");
   const [currentMode, setCurrentMode] = useState("Light");
   const [themeSettings, setThemeSettings] = useState(false);
+  const [pieChartData, setPieChartData] = useState({ data: [] });
   const setMode = (e) => {
     setCurrentMode(e.target.value);
 
@@ -36,6 +39,11 @@ export const ContextProvider = ({ children }) => {
     setIsClicked({ ...initialState, [clicked]: true });
   };
 
+  socket.on("message", (data) => {
+    //Replacing the data of pie chart with update value received from backend.
+    setPieChartData((data = data[0].spinner));
+  });
+
   return (
     <StateContext.Provider
       value={{
@@ -54,6 +62,8 @@ export const ContextProvider = ({ children }) => {
         setThemeSettings,
         setColor,
         setMode,
+        pieChartData,
+        setPieChartData,
       }}
     >
       {children}
