@@ -7,6 +7,7 @@ const {
   postSpinnerData,
   changeSpinnerData,
   deleteSpinnerData,
+  postCandiateForm,
 } = require("../controllers/spinner");
 
 router
@@ -18,6 +19,6 @@ router
 router.route("/api/spinner/:id").patch(changeSpinnerData);
 
 //sk...
-router.route("/candiateForm");
+router.route("/api/candiateForm/:id").post(postCandiateForm);
 
 module.exports = router;

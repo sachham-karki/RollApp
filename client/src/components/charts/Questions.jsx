@@ -14,14 +14,18 @@ const Questions = ({ text }) => {
 
   return (
     <>
-      <Button
-        bgColor={currentColor}
-        color="white"
-        size="md"
-        text={text}
-        bRadius={30}
-        width="250px"
-      />
+      <div>
+        <input type="number" max="10" min="0" required />
+
+        <Button
+          bgColor={currentColor}
+          color="white"
+          size="md"
+          text={text}
+          bRadius={30}
+          width="250px"
+        />
+      </div>
     </>
   );
 };

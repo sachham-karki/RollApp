@@ -38,42 +38,39 @@ const Charts = () => {
   //   loadData();
   // }, []);
 
+  let [dataOfPieChart, setDataOfPieChart] = useState(null);
+  let [load, setLoad] = useState(false);
+  let [candiateDocID, setCandiateDocID] = useState(" ");
+
   useEffect(() => {
     loadAsync();
   }, []);
-
-  const [dataOfPieChart, setDataOfPieChart] = useState(null);
-  const [load, setLoad] = useState(false);
 
   const loadAsync = async () => {
     const response = await axios.get("http://localhost:8000/spinner");
 
     setDataOfPieChart(response.data[0].spinner);
+    setCandiateDocID(response.data[0]._id);
     setLoad(true);
   };
 
-  // const arrData = dataOfPieChart.map((x) => x.x);
-
-  const dataPie = dataOfPieChart;
-  // const map1 = dataPie.map((x) => x.x);
-  console.log(dataPie);
+  console.log(dataOfPieChart);
 
   const vote = async (opt) => {
-    // socket.on("connection");
-    //Sending data to backend and invoke the function called voteCountUpdate using emit method.
+    socket.on("connection");
+    // Sending data to backend and invoke the function called voteCountUpdate using emit method.
     socket.emit("voteCountUpdate", opt.x);
-
-    console.log(`map----------------->>>>>>>>>>>>>>>>>  ${opt.x} `);
+    // const updateVoteCount = await axios.patch(`http://localhost:8000/api/spinner/${opt.x}`)
+    // setDataOfPieChart(updateVoteCount.data[0].spinner);
   };
 
   socket.on("message", (data) => {
     //Replacing the data of pie chart with update value received from backend.
     setDataOfPieChart((dataOfPieChart = data[0].spinner));
+    console.log(data[0]._id);
   });
 
-  // console.log(dataOfPieChart);
-
-  // let a = dataOfPieChart.map((x) => x.x);
+  const formRoute = `/api/candiateForm/${candiateDocID}`;
 
   return (
     <>
@@ -126,7 +123,7 @@ const Charts = () => {
                   </div>
                 ))}
 
-              <form action="/spinner" method="POST">
+              <form action={`/api/candiateForm/${candiateDocID}`} method="POST">
                 <FormComp />
                 <button className="block m-8" type="submit" value="Submit">
                   Submit
