@@ -1,15 +1,31 @@
-import React from "react";
-// import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Form } from "../components";
 
-export default function Participant() {
-  return (
-    <form action="/spinner" method="POST">
-      <input type="text" placeholder="Items" name="Items" />
-      <input type="text" placeholder="Items" name="Items" />
+const Participant = () => {
+  useEffect(() => {
+    loadAsync();
+  }, []);
 
-      <button>Submit</button>
-    </form>
-  );
-}
+  const [data, setData] = useState(null);
+  const [load, setLoad] = useState(false);
+
+  const loadAsync = async () => {
+    const response = await axios.get("http://localhost:8000/spinner");
+
+    setData(response.data[0].spinner);
+    setLoad(true);
+  };
+
+  return <>{load && data.map((datas) => <h1 key={datas.x}>{datas.x}</h1>)}</>;
+};
+
+export default Participant;
+
+// import { useState } from "react";
+
+// <form action="/spinner" method="POST">
+//   <input type="text" placeholder="Items" name="Items" />
+//   <input type="text" placeholder="Items" name="Items" />
+
+//   <button>Submit</button>
+// </form>

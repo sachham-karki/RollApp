@@ -43,11 +43,12 @@ const spinnerModel = require("./models/spinnerData");
 //Listening to connection.
 io.sockets.on("connection", (socket) => {
   //Printing all the user that are connected to our server
-  console.log("User connected: " + socket.id);
-  //Checking if user is disconnected.
-  socket.on("disconnect", () => {
-    console.log("user disconnected with " + socket.id);
-  });
+  // console.log("User connected: " + socket.id);
+  // //Checking if user is disconnected.
+  // socket.on("disconnect", () => {
+  //   console.log("user disconnected with " + socket.id);
+  // });
+
   socket.on("voteCountUpdate", async (id) => {
     try {
       //Matching the id with
