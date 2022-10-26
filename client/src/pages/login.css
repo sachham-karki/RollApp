@@ -1,0 +1,116 @@
+.login-register__bg {
+  /* background-image: linear-gradient(15deg, #002a60, #ba53d6 48%, #069fa7); */
+  background-color: rgb(251, 185, 19);
+}
+.page-not-foundtext__center {
+  text-align: center;
+  min-height: 100vh;
+  padding-top: 5em;
+  color: white;
+  line-height: 3em;
+  font-size: 150%;
+}
+.page-not-foundtext__center span {
+  color: red;
+}
+.mainLogin {
+  text-align: center;
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  /* background-image: linear-gradient(79deg, #4a036c, #fa3976 48%, #eac233); */
+
+  /* background-image: linear-gradient(15deg, #002a60, #ba53d6 48%, #069fa7); */
+}
+
+.mainRegister {
+  text-align: center;
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  /* background-image: linear-gradient(79deg, #4a036c, #fa3976 48%, #eac233); */
+
+  /* background-image: linear-gradient(15deg, #002a60, #ba53d6 48%, #069fa7); */
+}
+
+.auth-form-container,
+.login-form,
+.register-form {
+  display: flex;
+  flex-direction: column;
+}
+
+@media screen and (min-width: 700px) {
+  .auth-form-container {
+    padding: 6rem;
+    border: 1px solid white;
+    border-radius: 10px;
+    margin: 0.5rem;
+  }
+}
+
+.mainRegister label {
+  text-align: left;
+  padding: 0.25rem 0;
+}
+
+.mainRegister input {
+  margin: 0.5rem 0;
+  padding: 1rem;
+  border: none;
+  border-radius: 10px;
+}
+
+.mainLogin label {
+  text-align: left;
+  padding: 0.25rem 0;
+}
+
+.mainLogin input {
+  margin: 0.5rem 0;
+  padding: 1rem;
+  border: none;
+  border-radius: 10px;
+}
+
+.button-login-register {
+  border: none;
+  background-color: #2e4a13;
+  /* background-image: linear-gradient(10deg, #4a036c, #fa3976 48%, #eac233); */
+  padding: 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  color: white;
+  width: 100%;
+  margin-top: 1em;
+}
+
+.link-btn {
+  background: none;
+  color: white;
+  text-decoration: underline;
+  border: none;
+  margin-top: 2rem;
+  cursor: pointer;
+}
+
+.link-btn :hover {
+  color: rgb(18, 223, 141);
+}
+
+.login-register__logo {
+  width: 100px;
+  height: 69px;
+  margin-top: 2em;
+  margin-left: 2em;
+}
+
+.authError-message {
+  color: rgb(220, 24, 24);
+  margin-top: 2em;
+  margin-bottom: 1em;
+}

@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
-
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { FiSettings } from "react-icons/fi";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
@@ -58,11 +59,13 @@ const App = () => {
             <div>
               {themeSettings && <ThemeSettings />}
               <Routes>
+                <Route path="/" element={<Charts />} />
                 <Route path="/Conduct-Voting" element={<ConductVoting />} />
                 <Route path="/roll" element={<LetsRoll />} />
                 <Route path="/participant" element={<Participant />} />
                 <Route path="/pie" element={<Charts />} />
-                <Route path="/" element={<Charts />} />
+                <Route path="/register" element={<RegisterPage />} />
+                <Route path="/login" element={<LoginPage />} />
               </Routes>
             </div>
           </div>
