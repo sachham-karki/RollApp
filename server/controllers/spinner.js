@@ -87,6 +87,10 @@ const deleteSpinnerData = async (req, res) => {
       }
     );
     res.json(data);
+
+    //sk...
+    const { id } = req.params;
+    console.log(id + "--------->>>>>>>>>>>>");
   } catch (error) {
     console.log(error);
   }

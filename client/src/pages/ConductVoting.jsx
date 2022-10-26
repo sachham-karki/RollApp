@@ -22,7 +22,6 @@ const ConductVoting = () => {
             <p className="font-bold text-gray-400">Let's Roll</p>
           </div>
         </div>
-
         <div className="flex justify-center">
           <Button
             color="white"

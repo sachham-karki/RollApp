@@ -41,7 +41,6 @@ const Charts = () => {
   let [dataOfPieChart, setDataOfPieChart] = useState(null);
   let [load, setLoad] = useState(false);
   let [candiateDocID, setCandiateDocID] = useState(" ");
-  let [indexValue, setIndexValue] = useState(0);
 
   useEffect(() => {
     loadAsync();
@@ -51,16 +50,11 @@ const Charts = () => {
     const response = await axios.get("http://localhost:8000/spinner");
 
     setDataOfPieChart(response.data[0].spinner);
-    // setCandiateDocID(response.data[0]._id);
-    setCandiateDocID(response.data[0].spinner[indexValue]._id);
+    setCandiateDocID(response.data[0]._id);
     setLoad(true);
   };
 
-  const sendId = async () => {
-    await axios.post(`http://localhost:8000/api/spinnerDelete/${indexValue}`);
-  };
-
-  // console.log(candiateDocID);
+  console.log(dataOfPieChart);
 
   const vote = async (opt) => {
     socket.on("connection");
@@ -68,19 +62,17 @@ const Charts = () => {
     socket.emit("voteCountUpdate", opt.x);
     // const updateVoteCount = await axios.patch(`http://localhost:8000/api/spinner/${opt.x}`)
     // setDataOfPieChart(updateVoteCount.data[0].spinner);
-    // console.log("----------->>>>>>>>>" + opt._id);
   };
 
+  //candiate id
   const findIndex = async (opt) => {
-    setIndexValue(opt._id);
-
-    sendId();
+    console.log(opt._id + "-------------->>>>>>>>>>>>>>>");
   };
 
   socket.on("message", (data) => {
     //Replacing the data of pie chart with update value received from backend.
     setDataOfPieChart((dataOfPieChart = data[0].spinner));
-    // console.log(data[0]._id);
+    console.log(data[0]._id);
   });
 
   const formRoute = `/api/addSpinner/${candiateDocID}`;
@@ -100,7 +92,7 @@ const Charts = () => {
             />
             <div className=" grid grid-cols-1 gap-4 place-items-center mt-8">
               {load &&
-                dataOfPieChart.map((opt, index) => (
+                dataOfPieChart.map((opt) => (
                   <div key={opt.x}>
                     <p className="text-gray-400 m-3 mt-4 uppercase">
                       <span className="flex space-x-9">
@@ -115,7 +107,7 @@ const Charts = () => {
                             className="mr-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full "
                           >
                             x
-                          </button>
+                          </button>{" "}
                         </span>
                       </span>
                     </p>
