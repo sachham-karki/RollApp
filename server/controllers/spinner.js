@@ -43,9 +43,20 @@ const changeSpinnerData = async (req, res) => {
 
 const addNewSpinnerData = async (req, res) => {
   try {
-    const getData = req.body.Items.map((getX) => {
-      return { x: getX };
-    });
+    const { Items } = req.body;
+
+    let getData = [];
+    //Checking if it is array.
+
+    if (Array.isArray(Items)) {
+      //If array.
+      getData = Items.map((getX) => {
+        return { x: getX };
+      });
+    } else {
+      //If not array.
+      getData = { x: Items };
+    }
     await spinnerModel.updateMany(
       {
         _id: req.params.id,
@@ -57,29 +68,6 @@ const addNewSpinnerData = async (req, res) => {
       }
     );
     res.redirect("http://localhost:3000/pie");
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-//sk...
-const postCandiateForm = async (req, res) => {
-  try {
-    console.log(req.body);
-    await spinnerModel.deleteOne();
-
-    const getData = req.body.Items.map((getX) => {
-      return { x: getX };
-    });
-    console.log(getData);
-    const spinnerData = await spinnerModel.create({
-      spinner: getData,
-    });
-    res.redirect("http://localhost:3000/pie");
-    // res.json({ sucess: true, data: spinnerData });
-    // console.log(spinnerData);
-    const { id } = req.params;
-    console.log(`------------->>>>>>>>>>>>>>>>>>${id}`);
   } catch (error) {
     console.log(error);
   }
@@ -110,5 +98,4 @@ module.exports = {
   changeSpinnerData,
   addNewSpinnerData,
   deleteSpinnerData,
-  postCandiateForm,
 };

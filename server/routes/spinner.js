@@ -8,7 +8,6 @@ const {
   changeSpinnerData,
   addNewSpinnerData,
   deleteSpinnerData,
-  postCandiateForm,
 } = require("../controllers/spinner");
 
 router.route("/spinner").get(getSpinnerData).post(postSpinnerData);
@@ -20,8 +19,5 @@ router.route("/api/addSpinner/:id").post(addNewSpinnerData);
 
 //sk...
 router.route("/candiateForm");
-
-//sk...
-router.route("/api/candiateForm/:id").post(postCandiateForm);
 
 module.exports = router;
