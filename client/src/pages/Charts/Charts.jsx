@@ -21,7 +21,7 @@ import io from "socket.io-client";
 
 const socket = io.connect("http://localhost:8000");
 
-const addNewData = async () => { };
+const addNewData = async () => {};
 
 const Charts = () => {
   //old
@@ -41,6 +41,7 @@ const Charts = () => {
   let [dataOfPieChart, setDataOfPieChart] = useState(null);
   let [load, setLoad] = useState(false);
   let [candiateDocID, setCandiateDocID] = useState(" ");
+  let [indexValue, setIndexValue] = useState(0);
 
   useEffect(() => {
     loadAsync();
@@ -50,11 +51,16 @@ const Charts = () => {
     const response = await axios.get("http://localhost:8000/spinner");
 
     setDataOfPieChart(response.data[0].spinner);
-    setCandiateDocID(response.data[0]._id);
+    // setCandiateDocID(response.data[0]._id);
+    setCandiateDocID(response.data[0].spinner[indexValue]._id);
     setLoad(true);
   };
 
-  console.log(dataOfPieChart);
+  const sendId = async () => {
+    await axios.post(`http://localhost:8000/api/spinnerDelete/${indexValue}`);
+  };
+
+  // console.log(candiateDocID);
 
   const vote = async (opt) => {
     socket.on("connection");
@@ -62,12 +68,19 @@ const Charts = () => {
     socket.emit("voteCountUpdate", opt.x);
     // const updateVoteCount = await axios.patch(`http://localhost:8000/api/spinner/${opt.x}`)
     // setDataOfPieChart(updateVoteCount.data[0].spinner);
+    // console.log("----------->>>>>>>>>" + opt._id);
+  };
+
+  const findIndex = async (opt) => {
+    setIndexValue(opt._id);
+
+    sendId();
   };
 
   socket.on("message", (data) => {
     //Replacing the data of pie chart with update value received from backend.
     setDataOfPieChart((dataOfPieChart = data[0].spinner));
-    console.log(data[0]._id);
+    // console.log(data[0]._id);
   });
 
   const formRoute = `/api/addSpinner/${candiateDocID}`;
@@ -87,11 +100,23 @@ const Charts = () => {
             />
             <div className=" grid grid-cols-1 gap-4 place-items-center mt-8">
               {load &&
-                dataOfPieChart.map((opt) => (
+                dataOfPieChart.map((opt, index) => (
                   <div key={opt.x}>
                     <p className="text-gray-400 m-3 mt-4 uppercase">
-                      <span onClick={vote.bind(this, opt)}>
-                        <Questions text={opt.x} />
+                      <span className="flex space-x-9">
+                        <span onClick={vote.bind(this, opt)}>
+                          <Questions text={opt.x} />
+                        </span>
+
+                        <span>
+                          {" "}
+                          <button
+                            onClick={findIndex.bind(this, opt)}
+                            className="mr-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full "
+                          >
+                            x
+                          </button>
+                        </span>
                       </span>
                     </p>
 

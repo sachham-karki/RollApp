@@ -4,7 +4,12 @@ import FormComp from "../components/charts/FormComp";
 const Participant = () => {
   return (
     <div>
-      <FormComp />
+      <form action="">
+        <button>
+          {" "}
+          <FormComp />
+        </button>
+      </form>
     </div>
   );
 };

@@ -39,14 +39,6 @@ const FormComp = () => {
         return (
           // <form action="/" method="POST">
           <div className="ml-10">
-            <input
-              type="text"
-              placeholder="Items"
-              name="Items"
-              value={data}
-              onChange={(e) => handleChange(e, i)}
-              className=" ml-10 mr-8 p-3 w-60 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg "
-            />
             <button
               onClick={() => handleDelete(i)}
               className="mr-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full "
