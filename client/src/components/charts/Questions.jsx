@@ -13,14 +13,16 @@ const Questions = ({ text }) => {
   const { currentColor } = useStateContext();
 
   return (
-    <Button
-      bgColor={currentColor}
-      color="white"
-      size="md"
-      text={text}
-      bRadius={30}
-      width="250px"
-    />
+    <>
+      <Button
+        bgColor={currentColor}
+        color="white"
+        size="md"
+        text={text}
+        bRadius={30}
+        width="250px"
+      />
+    </>
   );
 };
 

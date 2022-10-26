@@ -24,27 +24,46 @@ const socket = io.connect("http://localhost:8000");
 const addNewData = async () => {};
 
 const Charts = () => {
-  let [dataOfPieChart, setDataOfPieChart] = useState({ data: [] });
+  //old
+  // const [dataOfPieChart, setDataOfPieChart] = useState({ data: [] });
 
-  const { currentColor } = useStateContext();
+  // const { currentColor } = useStateContext();
+  // useEffect(() => {
+  //   const loadData = async () => {
+  //     //Geting pie chart data from backend.
+  //     const getData = await axios.get("http://localhost:8000/spinner");
+  //     //Assigning data to pieChartData variable.
+  //     setDataOfPieChart(getData.data[0].spinner);
+  //   };
+  //   loadData();
+  // }, []);
+
   useEffect(() => {
-    const loadData = async () => {
-      //Geting pie chart data from backend.
-      const getData = await axios.get("http://localhost:8000/spinner");
-      //Assigning data to pieChartData variable.
-      setDataOfPieChart(getData.data[0].spinner);
-    };
-    loadData();
+    loadAsync();
   }, []);
 
-  // console.log(dataOfPieChart);
+  const [dataOfPieChart, setDataOfPieChart] = useState(null);
+  const [load, setLoad] = useState(false);
+
+  const loadAsync = async () => {
+    const response = await axios.get("http://localhost:8000/spinner");
+
+    setDataOfPieChart(response.data[0].spinner);
+    setLoad(true);
+  };
+
+  // const arrData = dataOfPieChart.map((x) => x.x);
+
+  const dataPie = dataOfPieChart;
+  // const map1 = dataPie.map((x) => x.x);
+  console.log(dataPie);
 
   const vote = async (opt) => {
-    socket.on("connection");
+    // socket.on("connection");
     //Sending data to backend and invoke the function called voteCountUpdate using emit method.
-    socket.emit("voteCountUpdate", opt);
+    socket.emit("voteCountUpdate", opt.x);
 
-    console.log("map----------------->>>>>>>>>>>>>>>>>");
+    console.log(`map----------------->>>>>>>>>>>>>>>>>  ${opt.x} `);
   };
 
   socket.on("message", (data) => {
@@ -52,7 +71,9 @@ const Charts = () => {
     setDataOfPieChart((dataOfPieChart = data[0].spinner));
   });
 
-  console.log(dataOfPieChart);
+  // console.log(dataOfPieChart);
+
+  // let a = dataOfPieChart.map((x) => x.x);
 
   return (
     <>
@@ -68,22 +89,23 @@ const Charts = () => {
               height="full"
             />
             <div className=" grid grid-cols-1 gap-4 place-items-center mt-8">
-              {dataOfPieChart.map((opt) => (
-                <div key={opt.x}>
-                  <p className="text-gray-400 m-3 mt-4 uppercase">
-                    <span onClick={vote.bind(this, opt)}>
-                      <Questions text={opt.x} />
-                    </span>
-                  </p>
+              {load &&
+                dataOfPieChart.map((opt) => (
+                  <div key={opt.x}>
+                    <p className="text-gray-400 m-3 mt-4 uppercase">
+                      <span onClick={vote.bind(this, opt)}>
+                        <Questions text={opt.x} />
+                      </span>
+                    </p>
 
-                  {/* <p className=" grid grid-cols-1 gap-4 place-items-center mt-8">
+                    {/* <p className=" grid grid-cols-1 gap-4 place-items-center mt-8">
                     {" "}
                     <div onClick={vote.bind(this, items)}>
                       <Questions text={items.x} />
                     </div>
                   </p> */}
 
-                  {/* {items.options.map((opt) => (
+                    {/* {items.options.map((opt) => (
                     <p className=" grid grid-cols-1 gap-4 place-items-center mt-8">
                       {" "}
                       <div onClick={vote.bind(this, opt)}>
@@ -91,7 +113,7 @@ const Charts = () => {
                       </div>
                     </p>
                   ))} */}
-                  {/* <div className="m-12">
+                    {/* <div className="m-12">
                     <Button
                       color="white"
                       bgColor={currentColor}
@@ -101,8 +123,8 @@ const Charts = () => {
                       padX={10}
                     />
                   </div> */}
-                </div>
-              ))}
+                  </div>
+                ))}
 
               <form action="/spinner" method="POST">
                 <FormComp />

@@ -16,7 +16,7 @@ const FormComp = () => {
     inputdata[i] = changeValue.target.value;
     setOptions(inputdata);
   };
-  console.log(options, "data");
+  // console.log(options, "data");
 
   const handleDelete = (i) => {
     const deleteOptions = [...options];
