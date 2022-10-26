@@ -4,7 +4,6 @@ const getSpinnerData = async (req, res) => {
   try {
     const spinnerData = await spinnerModel.find({});
     res.json(spinnerData);
-    console.log("hello");
   } catch (error) {
     console.log(error);
   }
