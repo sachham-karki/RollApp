@@ -57,6 +57,7 @@ const addNewSpinnerData = async (req, res) => {
       //If not array.
       getData = { x: Items };
     }
+
     await spinnerModel.updateMany(
       {
         _id: req.params.id,
@@ -76,7 +77,8 @@ const addNewSpinnerData = async (req, res) => {
 const deleteSpinnerData = async (req, res) => {
   try {
     //Deleting the collections.
-    const data = await spinnerModel.updateOne(
+    console.log(req.params.id);
+    await spinnerModel.updateOne(
       {},
       {
         $pull: {
@@ -86,11 +88,9 @@ const deleteSpinnerData = async (req, res) => {
         },
       }
     );
+    const data = await spinnerModel.find({});
     res.json(data);
-
-    //sk...
-    const { id } = req.params;
-    console.log(id + "--------->>>>>>>>>>>>");
+    // res.send("hello");
   } catch (error) {
     console.log(error);
   }

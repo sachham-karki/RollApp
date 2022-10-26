@@ -15,8 +15,6 @@ const Questions = ({ text }) => {
   return (
     <>
       <div>
-        <input type="number" max="10" min="0" required />
-
         <Button
           bgColor={currentColor}
           color="white"

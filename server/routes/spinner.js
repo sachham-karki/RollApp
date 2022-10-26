@@ -17,7 +17,4 @@ router.route("/api/spinnerDelete/:id").delete(deleteSpinnerData);
 
 router.route("/api/addSpinner/:id").post(addNewSpinnerData);
 
-//sk...
-router.route("/candiateForm");
-
 module.exports = router;

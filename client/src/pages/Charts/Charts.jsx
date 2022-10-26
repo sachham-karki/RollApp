@@ -38,6 +38,8 @@ const Charts = () => {
   //   loadData();
   // }, []);
 
+  const { currentColor } = useStateContext();
+
   let [dataOfPieChart, setDataOfPieChart] = useState(null);
   let [load, setLoad] = useState(false);
   let [candiateDocID, setCandiateDocID] = useState(" ");
@@ -66,7 +68,15 @@ const Charts = () => {
 
   //candiate id
   const findIndex = async (opt) => {
-    console.log(opt._id + "-------------->>>>>>>>>>>>>>>");
+    try {
+      const afterDeleteData = await axios.delete(
+        `http://localhost:8000/api/spinnerDelete/${opt._id}`
+      );
+
+      setDataOfPieChart(afterDeleteData.data[0].spinner);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   socket.on("message", (data) => {
@@ -95,7 +105,17 @@ const Charts = () => {
                 dataOfPieChart.map((opt) => (
                   <div key={opt.x}>
                     <p className="text-gray-400 m-3 mt-4 uppercase">
-                      <span className="flex space-x-9">
+                      <span className="flex space-x-9 static">
+                        <span className="absolute mt-[-0.5px] bg-green-900">
+                          <input
+                            className={` p-3 border divide-slate-200  placeholder-slate-400 contrast-more:border-slate-400 contrast-more:placeholder-slate-500 `}
+                            placeholder="0"
+                            type="number"
+                            id="pollQuestion"
+                            max="10"
+                            min="0"
+                          />
+                        </span>
                         <span onClick={vote.bind(this, opt)}>
                           <Questions text={opt.x} />
                         </span>
