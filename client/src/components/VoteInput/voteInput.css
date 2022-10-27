@@ -1,0 +1,47 @@
+/* <div className="voteInput__container">
+<button id="decreaseVote">-</button>
+<input id="voteInput" />
+<button id="increaseVote">+</button>
+</div> */
+
+.voteInput__container {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  /* box-shadow: 0 20px 30px rgba(0, 0, 0, 0.2); */
+  background-color: #ffff;
+  border-radius: 45px 0 0 45px;
+  border: 1px solid rgb(232, 228, 228);
+}
+
+.voteInput__container input[type="number"] {
+  -moz-appearance: textfield;
+  text-align: center;
+  /* font-size: 40px; */
+  border: none;
+  background-color: #ffff;
+  color: #202030;
+}
+
+.voteInput__container input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.voteInput__container button {
+  color: #3264fe;
+  background-color: #ffff;
+  border: none;
+  /* font-size: 40px; */
+  cursor: pointer;
+}
+
+#decreaseVote {
+  padding: 12px 15px 10px 20px;
+  border-radius: 45px 0 0 45px;
+}
+
+#increaseVote {
+  padding: 11px 15px 10px 20px;
+  border-radius: 45px 0 0 45px;
+}

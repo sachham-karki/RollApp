@@ -71,7 +71,7 @@ const LoginPage = (props) => {
       <div className="login-register__bg">
         <div className="mainLogin">
           <div className="auth-form-container">
-            <h2>Login</h2>
+            <h1>Login</h1>
             {error && <p className="authError-message">{error}</p>}
             <form className="login-form" onSubmit={handleSubmit}>
               <label for="email">Email</label>
@@ -85,6 +85,7 @@ const LoginPage = (props) => {
               />
               <label for="password">Password</label>
               <input
+                color="black"
                 value={pass}
                 onChange={(e) => setPass(e.target.value)}
                 type="password"
@@ -108,14 +109,16 @@ const LoginPage = (props) => {
                 <FcGoogle size="2rem" />
               </button>
             </div>
-            <Link to="/register">
-              <button
-                className="link-btn"
-                onClick={() => props.onFormSwitch("register")}
-              >
-                Register Account
-              </button>
-            </Link>
+            <div className="pageSwitchLink">
+              <Link to="/register">
+                <button
+                  className="link-btn"
+                  onClick={() => props.onFormSwitch("register")}
+                >
+                  Register Account
+                </button>
+              </Link>
+            </div>
           </div>
         </div>
       </div>

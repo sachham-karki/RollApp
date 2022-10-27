@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
 import io from "socket.io-client";
-import { pieChartData } from "../data/dummy";
 const socket = io.connect("http://localhost:8000");
 const StateContext = createContext();
 

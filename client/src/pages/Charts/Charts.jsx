@@ -10,10 +10,9 @@ import {
   Questions,
   SpinWheel,
   FormComp,
+  VoteInput,
   Button,
 } from "../../components";
-
-import CandidateListData from "../../components/charts/CandidateListData";
 
 import axios from "axios";
 
@@ -85,8 +84,6 @@ const Charts = () => {
     console.log(data[0]._id);
   });
 
-  const formRoute = `/api/addSpinner/${candidateDocID}`;
-
   return (
     <>
       <div className="m-4 md:m-10 mt-24 p-10 bg-white dark:bg-secondary-dark-bg rounded-3xl">
@@ -105,8 +102,8 @@ const Charts = () => {
                 dataOfPieChart.map((opt) => (
                   <div key={opt.x}>
                     <p className="text-gray-400 m-3 mt-4 uppercase">
-                      <span className="flex space-x-9 static">
-                        <span className="absolute mt-[-0.5px] bg-green-900">
+                      <span className="flex space-x-9 relative">
+                        {/* <span className="absolute mt-[-0.5px] bg-green-900">
                           <input
                             className={` p-3 border divide-slate-200  placeholder-slate-400 contrast-more:border-slate-400 contrast-more:placeholder-slate-500 `}
                             placeholder="0"
@@ -115,6 +112,9 @@ const Charts = () => {
                             max="10"
                             min="0"
                           />
+                        </span> */}
+                        <span className="mt-6">
+                          <VoteInput />
                         </span>
                         <span onClick={vote.bind(this, opt)}>
                           <Questions text={opt.x} />

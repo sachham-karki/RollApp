@@ -1,7 +1,14 @@
 import React from "react";
 import { BsCurrencyDollar } from "react-icons/bs";
 import { GoPrimitiveDot } from "react-icons/go";
-import { Stacked, Pie, Button, SparkLine, SpinWheel } from "../components";
+import {
+  Stacked,
+  VoteInput,
+  Pie,
+  Button,
+  SparkLine,
+  SpinWheel,
+} from "../components";
 
 import {
   earningData,
@@ -48,8 +55,10 @@ const ConductVoting = () => {
             padX={10}
           />
         </div> */}
+      <div className="flex justify-center mt-20">
+        <VoteInput />
+      </div>
     </div>
-    // </div>
   );
 };
 

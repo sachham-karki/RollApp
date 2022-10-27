@@ -71,7 +71,7 @@ const RegisterPage = (props) => {
       <div className="login-register__bg">
         <div className="mainRegister">
           <div className="auth-form-container">
-            <h2>Sign In Area </h2>
+            <h1>Sign In Area </h1>
             {error && <p className="authError-message">{error}</p>}
             <form className="register-form" onSubmit={handleSubmit}>
               <label for="name">Full Name</label>
@@ -130,14 +130,16 @@ const RegisterPage = (props) => {
                 <FcGoogle size="2rem" />
               </button>
             </div>
-            <Link to="/login">
-              <button
-                className="link-btn"
-                onClick={() => props.onFormSwitch("login")}
-              >
-                Log In Page
-              </button>
-            </Link>
+            <div className="pageSwitchLink">
+              <Link to="/login">
+                <button
+                  className="link-btn"
+                  onClick={() => props.onFormSwitch("login")}
+                >
+                  Log In Page
+                </button>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
