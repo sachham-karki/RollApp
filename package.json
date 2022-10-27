@@ -5,5 +5,9 @@
     "author": "Sachham Karki",
     "engines": {
         "node": "18.x"
+    },
+    "scripts": {
+        "start": "node server/app.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
     }
 }
