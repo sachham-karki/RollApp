@@ -1,40 +1,87 @@
 import React, { useState } from "react";
 import "./login.css";
 import { Link, useNavigate } from "react-router-dom";
+import {
+  getAuth,
+  GoogleAuthProvider,
+  FacebookAuthProvider,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  signOut,
+} from "firebase/auth";
+import { SiFacebook } from "react-icons/si";
+import { FcGoogle } from "react-icons/fc";
 
-// import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 const RegisterPage = (props) => {
+  const auth = getAuth();
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
-  const navigate = useNavigate();
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(email);
   };
-  const logIn = async () => {
+
+  //using useNavigate
+  const navigate = useNavigate();
+
+  const createAccount = async () => {
     try {
-      // await signInWithEmailAndPassword(getAuth(), email, pass);
+      if (pass !== confirmPassword) {
+        setError("** Password and Confirm Password don't match. ");
+        return;
+      }
+
+      await createUserWithEmailAndPassword(getAuth(), email, pass);
       navigate("/");
     } catch (e) {
       setError(e.message);
     }
   };
+
+  let googleProvider = new GoogleAuthProvider();
+
+  const signInWithGoggle = () => {
+    signInWithPopup(auth, googleProvider)
+      .then((result) => {
+        const user = result.user;
+        console.log(user.displayName);
+        console.log(user.photoURL);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const facebookProvider = new FacebookAuthProvider();
+  const signInWithFacebook = () => {
+    signInWithPopup(auth, facebookProvider)
+      .then((result) => {})
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <>
       <div className="login-register__bg">
-        <div className="mainLogin">
+        <div className="mainRegister">
           <div className="auth-form-container">
-            <h2>Login</h2>
+            <h2>Sign In Area </h2>
             {error && <p className="authError-message">{error}</p>}
-            <form className="login-form" onSubmit={handleSubmit}>
+            <form className="register-form" onSubmit={handleSubmit}>
               <label for="name">Full Name</label>
               <input
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                type="text"
-                placeholder="enter full name.."
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                type="name"
+                placeholder="full name.."
                 id="name"
-                name="name field"
+                name="name"
               />
 
               <label for="email">Email</label>
@@ -46,6 +93,7 @@ const RegisterPage = (props) => {
                 id="email"
                 name="email"
               />
+
               <label for="password">Password</label>
               <input
                 value={pass}
@@ -55,21 +103,39 @@ const RegisterPage = (props) => {
                 id="password"
                 name="password"
               />
+              <label for="password">Re-Enter Password</label>
+              <input
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                type="password"
+                placeholder="password.."
+                id="Comfirm password"
+                name="Confirm password"
+              />
 
               <button
                 className="button-login-register"
-                type="submit"
-                onClick={logIn}
+                // type="submit"
+                onClick={createAccount}
               >
-                Log In
+                {" "}
+                Create Account
               </button>
             </form>
-            <Link to="/register">
+            <div className="flex m-5 mt-8 xl justify-between ">
+              <button className="fb btn" onClick={signInWithFacebook}>
+                <SiFacebook color=" #4267B2" size="2rem" />
+              </button>
+              <button className="goggle btn" onClick={signInWithGoggle}>
+                <FcGoogle size="2rem" />
+              </button>
+            </div>
+            <Link to="/login">
               <button
                 className="link-btn"
-                onClick={() => props.onFormSwitch("register")}
+                onClick={() => props.onFormSwitch("login")}
               >
-                Register Account
+                Log In Page
               </button>
             </Link>
           </div>
@@ -78,4 +144,5 @@ const RegisterPage = (props) => {
     </>
   );
 };
+
 export default RegisterPage;
