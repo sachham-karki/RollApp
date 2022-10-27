@@ -1,0 +1,9 @@
+{
+    "name": "rolldice",
+    "version": "1.0.0",
+    "description": "",
+    "author": "Sachham Karki",
+    "engines": {
+        "node": "18.x"
+    }
+}
