@@ -1,10 +1,10 @@
 import React from "react";
 import { useStateContext } from "../../contexts/ContextProvider";
 
-const CandiateListData = () => {
+const CandidateListData = () => {
   const { pieChartData } = useStateContext();
 
   return pieChartData;
 };
 
-export default CandiateListData;
+export default CandidateListData;

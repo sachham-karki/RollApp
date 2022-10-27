@@ -13,7 +13,7 @@ import {
   Button,
 } from "../../components";
 
-import CandiateListData from "../../components/charts/CandiateListData";
+import CandidateListData from "../../components/charts/CandidateListData";
 
 import axios from "axios";
 
@@ -42,7 +42,7 @@ const Charts = () => {
 
   let [dataOfPieChart, setDataOfPieChart] = useState(null);
   let [load, setLoad] = useState(false);
-  let [candiateDocID, setCandiateDocID] = useState(" ");
+  let [candidateDocID, setCandidateDocID] = useState(" ");
 
   useEffect(() => {
     loadAsync();
@@ -52,7 +52,7 @@ const Charts = () => {
     const response = await axios.get("http://localhost:8000/spinner");
 
     setDataOfPieChart(response.data[0].spinner);
-    setCandiateDocID(response.data[0]._id);
+    setCandidateDocID(response.data[0]._id);
     setLoad(true);
   };
 
@@ -66,7 +66,7 @@ const Charts = () => {
     // setDataOfPieChart(updateVoteCount.data[0].spinner);
   };
 
-  //candiate id
+  //candidate id
   const findIndex = async (opt) => {
     try {
       const afterDeleteData = await axios.delete(
@@ -85,7 +85,7 @@ const Charts = () => {
     console.log(data[0]._id);
   });
 
-  const formRoute = `/api/addSpinner/${candiateDocID}`;
+  const formRoute = `/api/addSpinner/${candidateDocID}`;
 
   return (
     <>
@@ -160,7 +160,7 @@ const Charts = () => {
                   </div>
                 ))}
 
-              <form action={`/api/addSpinner/${candiateDocID}`} method="POST">
+              <form action={`/api/addSpinner/${candidateDocID}`} method="POST">
                 <FormComp />
                 <button className="block m-8" type="submit" value="Submit">
                   Submit
