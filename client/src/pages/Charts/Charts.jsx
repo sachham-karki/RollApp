@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 // import {pieChartData} from '../../data/dummy.js';
 import useUser from "../../hooks/useUser";
+import { getAuth } from "firebase/auth";
 import { useStateContext } from "../../contexts/ContextProvider";
-import { quesList } from "../../components/charts/Questions";
 
 import {
   Header,
@@ -27,6 +27,30 @@ const Charts = () => {
 
   //old
   // const [dataOfPieChart, setDataOfPieChart] = useState({ data: [] });
+
+  //*************req with auth token*****************
+
+  useEffect(() => {
+    const loadVote = async () => {
+      const auth = getAuth();
+      const newuser = auth.currentUser;
+
+      const userid = user && newuser.uid;
+
+      // const token = user && (await user.getIDToken());
+      // const headers = token ? { authtoken: token } : {};
+
+      const response = await axios.post(`/api/user/${userid}`);
+      // const response = await axios.get(`/api/user/${headers}`, { headers });
+      // const newvote = response.data;
+
+      // setVOteInfo(newvote);
+      console.log("**********>chart::" + userid);
+    };
+    loadVote();
+  }, []);
+
+  //*************req with auth token*****************
 
   // const { currentColor } = useStateContext();
   // useEffect(() => {
@@ -83,7 +107,7 @@ const Charts = () => {
   socket.on("message", (data) => {
     //Replacing the data of pie chart with update value received from backend.
     setDataOfPieChart((dataOfPieChart = data[0].spinner));
-    console.log(data[0]._id);
+    // console.log(data[0]._id);
   });
 
   return (

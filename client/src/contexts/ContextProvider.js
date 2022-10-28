@@ -11,8 +11,6 @@ const initialState = {
 };
 
 export const ContextProvider = ({ children }) => {
-  let [clickIncreaseVote, setClickIncreaseVote] = useState(null);
-  let [clickDecreaseVote, setClickDecreaseVote] = useState(null);
   const [activeMenu, setActiveMenu] = useState(true);
   const [isClicked, setIsClicked] = useState(initialState);
   const [screenSize, setScreenSize] = useState(undefined);
@@ -65,10 +63,6 @@ export const ContextProvider = ({ children }) => {
         setMode,
         pieChartData,
         setPieChartData,
-        clickIncreaseVote,
-        setClickIncreaseVote,
-        clickDecreaseVote,
-        setClickDecreaseVote,
       }}
     >
       {children}

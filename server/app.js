@@ -43,7 +43,9 @@ app.use(async (req, res, next) => {
 //
 const spinner = require("./routes/spinner");
 
+const user = require("./routes/user");
 app.use("/", spinner);
+app.use("/", user);
 
 //Used to display page not found.
 app.use(pageNotFound);

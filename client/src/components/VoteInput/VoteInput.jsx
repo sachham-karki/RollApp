@@ -1,5 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import "./voteInput.css";
+import { getAuth } from "firebase/auth";
+import useUser from "../../hooks/useUser";
 
 import axios from "axios";
 
@@ -12,6 +14,14 @@ const VoteInput = () => {
   const voteInputRef = useRef();
 
   let voteCurrentValue = 0;
+
+  const { user } = useUser();
+
+  //uid
+  // const auth = getAuth();
+  // const newuser = auth.currentUser;
+
+  // const userid = newuser.uid;
 
   //---------axios api****************************************************
 
@@ -43,6 +53,7 @@ const VoteInput = () => {
           voteInputRef.current.value +
           "==============>>>>>>>>>>>>>"
       );
+
       voteInc();
     }
   };
@@ -71,9 +82,19 @@ const VoteInput = () => {
   const voteInc = async () => {
     socket.on("connection");
     // Sending data to backend and invoke the function called voteCountUpdate using emit method.
-    socket.emit("voteCountUpdate", "app");
+    socket.emit("voteCountUpdate", "foot");
     // const updateVoteCount = await axios.patch(`http://localhost:8000/api/spinner/${opt.x}`)
     // setDataOfPieChart(updateVoteCount.data[0].spinner);
+    const auth = getAuth();
+    const newuser = auth.currentUser;
+
+    const userid = user && newuser.uid;
+
+    await axios.patch(
+      `http://localhost:8000/api/incUserVoteCount/${userid}/foot`
+    );
+
+    console.log("---+++++++++++++++" + userid);
   };
 
   const voteDec = async () => {
