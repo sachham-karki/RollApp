@@ -16,7 +16,6 @@ import {
 import { SiFacebook } from "react-icons/si";
 import { FcGoogle } from "react-icons/fc";
 
-// import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 const LoginPage = (props) => {
   const auth = getAuth();
 
@@ -30,9 +29,10 @@ const LoginPage = (props) => {
 
   const logIn = async () => {
     try {
-      // await signInWithEmailAndPassword(getAuth(), email, pass);
+      await signInWithEmailAndPassword(getAuth(), email, pass);
       signInWithEmailAndPassword(auth, email, pass)
         .then((userCredential) => {
+          console.log(userCredential);
           console.log("user has signed IN");
         })
         .catch((error) => {
@@ -93,6 +93,7 @@ const LoginPage = (props) => {
                 id="password"
                 name="password"
               />
+
               <button
                 className="button-login-register"
                 type="submit"

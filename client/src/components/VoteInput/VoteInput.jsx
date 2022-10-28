@@ -1,60 +1,96 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import "./voteInput.css";
-import { useStateContext } from "../../contexts/ContextProvider";
+
+import axios from "axios";
+
+import io from "socket.io-client";
+
+const socket = io.connect("http://localhost:8000");
 let votingPower = 10;
 
 const VoteInput = () => {
-  const {
-    clickIncreaseVote,
-    setClickIncreaseVote,
-    clickDecreaseVote,
-    setClickDecreaseVote,
-  } = useStateContext();
   const voteInputRef = useRef();
 
   let voteCurrentValue = 0;
 
+  //---------axios api****************************************************
+
+  let [votingPower, setVotingPower] = useState(null);
+
+  useEffect(() => {
+    getVotingPower();
+  }, []);
+
+  const getVotingPower = async () => {
+    const response = await axios.get("http://localhost:8000/spinner");
+
+    // setDataOfPieChart(response.data[0].spinner);
+    // setCandidateDocID(response.data[0]._id);
+    // setLoad(true);
+  };
+
+  //---------axios api***************************************************
+
   const incrementWeight = () => {
-    if (voteInputRef.current.value < 10) {
+    if (voteInputRef.current.value < 11) {
       votingPower > 0 && voteCurrentValue < 10 && voteCurrentValue++;
       voteInputRef.current.value = voteCurrentValue;
 
       votingPower > 0 && votingPower--;
-
       console.log(votingPower + "==============>>>>>>>>>>>>>");
       console.log(
         "input value:" +
           voteInputRef.current.value +
           "==============>>>>>>>>>>>>>"
       );
+      voteInc();
     }
   };
 
   const decrementWeight = () => {
-    if (voteInputRef.current.value > 0) {
-      // setClickDecreaseVote(!clickDecreaseVote);
-      voteCurrentValue > 0 && voteCurrentValue--;
-      voteInputRef.current.value = voteCurrentValue;
+    // if (voteInputRef.current.value > 0) {
+    voteDec();
+    voteCurrentValue > 0 && voteCurrentValue--;
+    voteInputRef.current.value = voteCurrentValue;
 
-      votingPower < 10 && votingPower++;
+    votingPower < 10 && votingPower++;
 
-      console.log(votingPower + "==============>>>>>>>>>>>>>");
+    console.log(votingPower + "==============>>>>>>>>>>>>>");
 
-      console.log(
-        "input value:" +
-          voteInputRef.current.value +
-          "==============>>>>>>>>>>>>>"
-      );
-    }
+    console.log(
+      "input value:" +
+        voteInputRef.current.value +
+        "==============>>>>>>>>>>>>>"
+    );
+
+    // }
+  };
+
+  //---------------------Socket-------------------------
+
+  const voteInc = async () => {
+    socket.on("connection");
+    // Sending data to backend and invoke the function called voteCountUpdate using emit method.
+    socket.emit("voteCountUpdate", "app");
+    // const updateVoteCount = await axios.patch(`http://localhost:8000/api/spinner/${opt.x}`)
+    // setDataOfPieChart(updateVoteCount.data[0].spinner);
+  };
+
+  const voteDec = async () => {
+    socket.on("connection");
+    // Sending data to backend and invoke the function called voteCountUpdate using emit method.
+    socket.emit("voteCountDecrease", "app");
+    // const updateVoteCount = await axios.patch(
+    //   `http://localhost:8000/api/decSpinner/app`
+    // );
+    // setDataOfPieChart(updateVoteCount.data[0].spinner);
   };
 
   return (
     <div className="voteInput__container">
-      {/* <span onClick={setClickDecreaseVote(clickDecreaseVote)}> */}{" "}
       <button id="decreaseVote" onClick={decrementWeight}>
         -
       </button>
-      {/* </span> */}
       <input
         type="number"
         ref={voteInputRef}
@@ -63,13 +99,7 @@ const VoteInput = () => {
         value="0"
         id="voteInput"
       />
-      {/* <span onClick={setClickIncreaseVote(!clickIncreaseVote)}> */}{" "}
-      <button
-        id="increaseVote"
-        onClick={() => {
-          incrementWeight();
-        }}
-      >
+      <button id="increaseVote" onClick={incrementWeight}>
         +
       </button>
     </div>

@@ -36,7 +36,15 @@ const RegisterPage = (props) => {
         return;
       }
 
-      await createUserWithEmailAndPassword(getAuth(), email, pass);
+      await createUserWithEmailAndPassword(auth, email, pass)
+        .then((userCredential) => {
+          console.log("heelo");
+          console.log(userCredential);
+        })
+
+        .catch((error) => {
+          console.log(error);
+        });
       navigate("/");
     } catch (e) {
       setError(e.message);

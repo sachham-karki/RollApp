@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 // import {pieChartData} from '../../data/dummy.js';
-
+import useUser from "../../hooks/useUser";
 import { useStateContext } from "../../contexts/ContextProvider";
+import { quesList } from "../../components/charts/Questions";
 
 import {
   Header,
@@ -22,8 +23,9 @@ const socket = io.connect("http://localhost:8000");
 const addNewData = async () => {};
 
 const Charts = () => {
-  //old
+  const { user, isLoading } = useUser();
 
+  //old
   // const [dataOfPieChart, setDataOfPieChart] = useState({ data: [] });
 
   // const { currentColor } = useStateContext();
@@ -37,13 +39,7 @@ const Charts = () => {
   //   loadData();
   // }, []);
 
-  const {
-    currentColor,
-    clickIncreaseVote,
-    setClickIncreaseVote,
-    clickDecreaseVote,
-    setClickDecreaseVote,
-  } = useStateContext();
+  const { currentColor } = useStateContext();
 
   let [dataOfPieChart, setDataOfPieChart] = useState(null);
   let [load, setLoad] = useState(false);
@@ -61,14 +57,12 @@ const Charts = () => {
     setLoad(true);
   };
 
-  console.log(
-    "::::=====>>>" + clickIncreaseVote + "======" + clickDecreaseVote
-  );
+  console.log(dataOfPieChart);
 
   const vote = async (opt) => {
     socket.on("connection");
     // Sending data to backend and invoke the function called voteCountUpdate using emit method.
-    socket.emit("voteCountUpdate", opt.x);
+    socket.emit("voteCountUpdate", opt);
     // const updateVoteCount = await axios.patch(`http://localhost:8000/api/spinner/${opt.x}`)
     // setDataOfPieChart(updateVoteCount.data[0].spinner);
   };
@@ -167,7 +161,7 @@ const Charts = () => {
                   </div> */}
                   </div>
                 ))}
-              //dynamic form
+
               <form action={`/api/addSpinner/${candidateDocID}`} method="POST">
                 <FormComp />
                 <button className="block m-8" type="submit" value="Submit">

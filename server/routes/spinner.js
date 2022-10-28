@@ -8,6 +8,7 @@ const {
   changeSpinnerData,
   addNewSpinnerData,
   deleteSpinnerData,
+  decreaseCandidateVoteCount,
 } = require("../controllers/spinner");
 
 router.route("/spinner").get(getSpinnerData).post(postSpinnerData);
@@ -16,5 +17,7 @@ router.route("/api/spinner/:id").patch(changeSpinnerData);
 router.route("/api/spinnerDelete/:id").delete(deleteSpinnerData);
 
 router.route("/api/addSpinner/:id").post(addNewSpinnerData);
+
+router.route("/api/decSpinner/:id").patch(decreaseCandidateVoteCount);
 
 module.exports = router;

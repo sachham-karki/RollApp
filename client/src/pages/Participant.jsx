@@ -71,6 +71,19 @@ export default function Participant() {
   };
   return (
     <div className="App">
+      <br />
+      <br />
+      <br />
+      <form action="/spinner" method="POST">
+        <input type="text" placeholder="Items" name="Items" />
+        <input type="text" placeholder="Items" name="Items" />
+
+        <button>Submit</button>
+      </form>
+      <br />
+      <br />
+      <br />
+      <br />
       <button className="fb btn" onClick={signInWithFacebook}>
         <SiFacebook />
         Login with Facebook

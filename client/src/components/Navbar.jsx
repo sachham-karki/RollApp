@@ -1,17 +1,17 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { AiOutlineMenu } from "react-icons/ai";
-import { FiShoppingCart } from "react-icons/fi";
-import { BsChatLeft } from "react-icons/bs";
-import { RiNotification3Line } from "react-icons/ri";
-import { MdHowToVote, MdKeyboardArrowDown } from "react-icons/md";
+import { MdKeyboardArrowDown } from "react-icons/md";
 
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 
 import avatar from "../data/avatar.jpg";
-import { Button, UserProfile, Questions } from ".";
+import { Button, UserProfile } from ".";
 
 import { useStateContext } from "../contexts/ContextProvider";
+
+import useUser from "../hooks/useUser";
+import { getAuth, signOut } from "firebase/auth";
 
 const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
   <TooltipComponent content={title} position="BottomCenter">
@@ -31,6 +31,7 @@ const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
 );
 
 const Navbar = () => {
+  const { user, isLoading } = useUser();
   const {
     activeMenu,
     setActiveMenu,
@@ -72,28 +73,33 @@ const Navbar = () => {
             className="flex items-center gap-2 cursor-pointer p-1 hover:bg-light-gray rounded-lg"
             onClick={() => handleClick("userProfile")}
           >
-            <Link to="/register">
-              <Button
-                bgColor={currentColor}
-                color="white"
-                size="md"
-                text="Sign Up"
-                bRadius={30}
-                width="100px"
-              />
-            </Link>
-
-            <Link to="/login">
-              <Button
-                bgColor={currentColor}
-                color="white"
-                size="md"
-                text="Log In"
-                bRadius={30}
-                width="100px"
-              />
-            </Link>
-
+            {user ? (
+              <span
+                onClick={() => {
+                  signOut(getAuth());
+                }}
+              >
+                <Button
+                  bgColor={currentColor}
+                  color="white"
+                  size="md"
+                  text="Log Out"
+                  bRadius={30}
+                  width="100px"
+                />
+              </span>
+            ) : (
+              <Link to="/login">
+                <Button
+                  bgColor={currentColor}
+                  color="white"
+                  size="md"
+                  text="Log In"
+                  bRadius={30}
+                  width="100px"
+                />
+              </Link>
+            )}
             <img className="rounded-full w-8 h-8" src={avatar} />
             <p>
               <span className="text-gray-400 text-14">Hi, </span>{" "}
@@ -108,7 +114,7 @@ const Navbar = () => {
           </div>
         </TooltipComponent>
 
-        {isClicked.userProfile && <UserProfile />}
+        {/* {isClicked.userProfile && <UserProfile />} */}
       </div>
     </div>
   );

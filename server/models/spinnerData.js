@@ -14,6 +14,10 @@ const spinnerSchema = new mongoose.Schema({
         type: String,
         default: "10%",
       },
+      votingPower: {
+        type: Number,
+        default: 10,
+      },
     },
   ],
 });

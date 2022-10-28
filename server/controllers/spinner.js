@@ -96,10 +96,26 @@ const deleteSpinnerData = async (req, res) => {
   }
 };
 
+//dec
+const decreaseCandidateVoteCount = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await spinnerModel.findOneAndUpdate(
+      { "spinner.x": id },
+      { $inc: { "spinner.$.y": -1 } }
+    );
+    const getUpdateSpinnerData = await spinnerModel.find({});
+    res.json(getUpdateSpinnerData);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   getSpinnerData,
   postSpinnerData,
   changeSpinnerData,
   addNewSpinnerData,
   deleteSpinnerData,
+  decreaseCandidateVoteCount,
 };

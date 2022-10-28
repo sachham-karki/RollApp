@@ -1,5 +1,13 @@
 const express = require("express");
 
+const fs = require("fs");
+const admin = require("firebase-admin");
+//firebased credentials
+const credentials = JSON.parse(fs.readFileSync("./credentials.json"));
+admin.initializeApp({
+  credential: admin.credential.cert(credentials),
+});
+
 const app = express();
 
 const cors = require("cors");
@@ -16,6 +24,21 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static("./public"));
+
+//using auth token to protect end point
+app.use(async (req, res, next) => {
+  const { authtoken } = req.headers;
+  if (authtoken) {
+    try {
+      req.user = await admin.auth().verifyIdToken(authtoken);
+    } catch (e) {
+      return res.sendStatus(400);
+    }
+  }
+
+  req.user = req.user || {};
+  next();
+});
 
 //
 const spinner = require("./routes/spinner");
@@ -55,6 +78,22 @@ io.sockets.on("connection", (socket) => {
       await spinnerModel.findOneAndUpdate(
         { "spinner.x": id },
         { $inc: { "spinner.$.y": 1 } }
+      );
+      //Getting updated value.
+      const getUpdatedValue = await spinnerModel.find({});
+      //Sending data to fornt-end.
+      io.sockets.emit("message", getUpdatedValue);
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
+  socket.on("voteCountDecrease", async (id) => {
+    try {
+      //Matching the id with
+      await spinnerModel.findOneAndUpdate(
+        { "spinner.x": id },
+        { $inc: { "spinner.$.y": -1 } }
       );
       //Getting updated value.
       const getUpdatedValue = await spinnerModel.find({});
