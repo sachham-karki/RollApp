@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 // import {pieChartData} from '../../data/dummy.js';
 
 import { useStateContext } from "../../contexts/ContextProvider";
-import { quesList } from "../../components/charts/Questions";
 
 import {
   Header,
@@ -24,6 +23,7 @@ const addNewData = async () => {};
 
 const Charts = () => {
   //old
+
   // const [dataOfPieChart, setDataOfPieChart] = useState({ data: [] });
 
   // const { currentColor } = useStateContext();
@@ -37,7 +37,13 @@ const Charts = () => {
   //   loadData();
   // }, []);
 
-  const { currentColor } = useStateContext();
+  const {
+    currentColor,
+    clickIncreaseVote,
+    setClickIncreaseVote,
+    clickDecreaseVote,
+    setClickDecreaseVote,
+  } = useStateContext();
 
   let [dataOfPieChart, setDataOfPieChart] = useState(null);
   let [load, setLoad] = useState(false);
@@ -55,7 +61,9 @@ const Charts = () => {
     setLoad(true);
   };
 
-  console.log(dataOfPieChart);
+  console.log(
+    "::::=====>>>" + clickIncreaseVote + "======" + clickDecreaseVote
+  );
 
   const vote = async (opt) => {
     socket.on("connection");
@@ -113,7 +121,7 @@ const Charts = () => {
                             min="0"
                           />
                         </span> */}
-                        <span className="mt-6">
+                        <span className="mt-6 ml-">
                           <VoteInput />
                         </span>
                         <span onClick={vote.bind(this, opt)}>
@@ -159,7 +167,7 @@ const Charts = () => {
                   </div> */}
                   </div>
                 ))}
-
+              //dynamic form
               <form action={`/api/addSpinner/${candidateDocID}`} method="POST">
                 <FormComp />
                 <button className="block m-8" type="submit" value="Submit">

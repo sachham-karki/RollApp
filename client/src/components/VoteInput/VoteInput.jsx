@@ -1,27 +1,38 @@
 import React, { useRef } from "react";
 import "./voteInput.css";
+import { useStateContext } from "../../contexts/ContextProvider";
 let votingPower = 10;
 
 const VoteInput = () => {
+  const {
+    clickIncreaseVote,
+    setClickIncreaseVote,
+    clickDecreaseVote,
+    setClickDecreaseVote,
+  } = useStateContext();
   const voteInputRef = useRef();
 
   let voteCurrentValue = 0;
 
   const incrementWeight = () => {
-    votingPower > 0 && voteCurrentValue < 10 && voteCurrentValue++;
-    voteInputRef.current.value = voteCurrentValue;
+    if (voteInputRef.current.value < 10) {
+      votingPower > 0 && voteCurrentValue < 10 && voteCurrentValue++;
+      voteInputRef.current.value = voteCurrentValue;
 
-    votingPower > 0 && votingPower--;
-    console.log(votingPower + "==============>>>>>>>>>>>>>");
-    console.log(
-      "input value:" +
-        voteInputRef.current.value +
-        "==============>>>>>>>>>>>>>"
-    );
+      votingPower > 0 && votingPower--;
+
+      console.log(votingPower + "==============>>>>>>>>>>>>>");
+      console.log(
+        "input value:" +
+          voteInputRef.current.value +
+          "==============>>>>>>>>>>>>>"
+      );
+    }
   };
 
   const decrementWeight = () => {
     if (voteInputRef.current.value > 0) {
+      // setClickDecreaseVote(!clickDecreaseVote);
       voteCurrentValue > 0 && voteCurrentValue--;
       voteInputRef.current.value = voteCurrentValue;
 
@@ -39,9 +50,11 @@ const VoteInput = () => {
 
   return (
     <div className="voteInput__container">
+      {/* <span onClick={setClickDecreaseVote(clickDecreaseVote)}> */}{" "}
       <button id="decreaseVote" onClick={decrementWeight}>
         -
       </button>
+      {/* </span> */}
       <input
         type="number"
         ref={voteInputRef}
@@ -50,7 +63,13 @@ const VoteInput = () => {
         value="0"
         id="voteInput"
       />
-      <button id="increaseVote" onClick={incrementWeight}>
+      {/* <span onClick={setClickIncreaseVote(!clickIncreaseVote)}> */}{" "}
+      <button
+        id="increaseVote"
+        onClick={() => {
+          incrementWeight();
+        }}
+      >
         +
       </button>
     </div>

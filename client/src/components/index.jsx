@@ -4,6 +4,8 @@ export { default as Footer } from "./Footer";
 export { default as Header } from "./Header";
 export { default as Navbar } from "./Navbar";
 export { default as VoteInput } from "./VoteInput/VoteInput";
+export { default as clickIncreaseWeight } from "./VoteInput/VoteInput";
+export { default as clickDecrementWeight } from "./VoteInput/VoteInput";
 export { default as Notification } from "./Notification";
 export { default as Sidebar } from "./Sidebar";
 export { default as ThemeSettings } from "./ThemeSettings";
