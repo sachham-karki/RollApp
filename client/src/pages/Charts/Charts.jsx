@@ -65,7 +65,7 @@ const Charts = () => {
   //   loadData();
   // }, []);
 
-  const { currentColor } = useStateContext();
+  const { currentColor, candidateName, setCandidateName } = useStateContext();
 
   let [dataOfPieChart, setDataOfPieChart] = useState(null);
   let [load, setLoad] = useState(false);
@@ -86,9 +86,12 @@ const Charts = () => {
   console.log(dataOfPieChart);
 
   const vote = async (opt) => {
-    socket.on("connection");
-    // Sending data to backend and invoke the function called voteCountUpdate using emit method.
-    socket.emit("voteCountUpdate", opt);
+    setCandidateName(opt.x);
+
+    console.log("##############$$$$$:::::" + opt.x);
+    // socket.on("connection");
+    // // Sending data to backend and invoke the function called voteCountUpdate using emit method.
+    // socket.emit("voteCountUpdate", opt.x);
     // const updateVoteCount = await axios.patch(`http://localhost:8000/api/spinner/${opt.x}`)
     // setDataOfPieChart(updateVoteCount.data[0].spinner);
   };
@@ -141,10 +144,13 @@ const Charts = () => {
                             min="0"
                           />
                         </span> */}
-                        <span className="mt-6 ml-">
+                        <span
+                          className="mt-6 ml-"
+                          onClick={vote.bind(this, opt)}
+                        >
                           <VoteInput />
                         </span>
-                        <span onClick={vote.bind(this, opt)}>
+                        <span>
                           <Questions text={opt.x} />
                         </span>
 

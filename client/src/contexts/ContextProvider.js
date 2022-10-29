@@ -18,6 +18,7 @@ export const ContextProvider = ({ children }) => {
   const [currentMode, setCurrentMode] = useState("Light");
   const [themeSettings, setThemeSettings] = useState(false);
   const [pieChartData, setPieChartData] = useState({ data: [] });
+  const [candidateName, setCandidateName] = useState("");
   const setMode = (e) => {
     setCurrentMode(e.target.value);
 
@@ -63,6 +64,8 @@ export const ContextProvider = ({ children }) => {
         setMode,
         pieChartData,
         setPieChartData,
+        candidateName,
+        setCandidateName,
       }}
     >
       {children}

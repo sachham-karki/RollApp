@@ -1,9 +1,11 @@
 import React, { useRef, useEffect, useState } from "react";
 import "./voteInput.css";
-import { getAuth } from "firebase/auth";
+
 import useUser from "../../hooks/useUser";
 
 import axios from "axios";
+
+import { useStateContext } from "../../contexts/ContextProvider";
 
 import io from "socket.io-client";
 
@@ -16,6 +18,8 @@ const VoteInput = () => {
   let voteCurrentValue = 0;
 
   const { user } = useUser();
+
+  const { candidateName, setCandidateName } = useStateContext();
 
   //uid
   // const auth = getAuth();
@@ -82,19 +86,21 @@ const VoteInput = () => {
   const voteInc = async () => {
     socket.on("connection");
     // Sending data to backend and invoke the function called voteCountUpdate using emit method.
-    socket.emit("voteCountUpdate", "apple");
+    socket.emit("voteCountUpdate", candidateName);
     // const updateVoteCount = await axios.patch(`http://localhost:8000/api/spinner/${opt.x}`)
     // setDataOfPieChart(updateVoteCount.data[0].spinner);
     const token = user && (await user.getIdToken());
     const headers = token ? { authtoken: token } : {};
 
-    await axios.patch("/api/incUserVote/patch/apple", null, { headers });
+    await axios.patch(`/api/incUserVote/patch/${candidateName}`, null, {
+      headers,
+    });
   };
 
   const voteDec = async () => {
     socket.on("connection");
     // Sending data to backend and invoke the function called voteCountUpdate using emit method.
-    socket.emit("voteCountDecrease", "apple");
+    socket.emit("voteCountDecrease", candidateName);
     // const updateVoteCount = await axios.patch(
     //   `http://localhost:8000/api/decSpinner/app`
     // );
@@ -103,7 +109,9 @@ const VoteInput = () => {
     const token = user && (await user.getIdToken());
     const headers = token ? { authtoken: token } : {};
 
-    await axios.patch("/api/decUserVote/patch/apple", null, { headers });
+    await axios.patch(`/api/decUserVote/patch/${candidateName}`, null, {
+      headers,
+    });
   };
 
   return (
