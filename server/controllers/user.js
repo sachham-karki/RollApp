@@ -73,9 +73,9 @@ const decreaseCandidateVoteCount = async (req, res) => {
   }
 };
 
-module.exports = {
-  getAllUsers,
-  postUserData,
-  addUserVotedItem,
-  decreaseCandidateVoteCount,
-};
+// module.exports = {
+//   getAllUsers,
+//   postUserData,
+//   addUserVotedItem,
+//   decreaseCandidateVoteCount,
+// };

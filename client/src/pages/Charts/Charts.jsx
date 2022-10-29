@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 // import {pieChartData} from '../../data/dummy.js';
 import useUser from "../../hooks/useUser";
-import { getAuth } from "firebase/auth";
+// import { getAuth } from "firebase/auth";
 import { useStateContext } from "../../contexts/ContextProvider";
 
 import {
@@ -23,32 +23,34 @@ const socket = io.connect("http://localhost:8000");
 const addNewData = async () => {};
 
 const Charts = () => {
-  const { user, isLoading } = useUser();
-
   //old
   // const [dataOfPieChart, setDataOfPieChart] = useState({ data: [] });
 
   //*************req with auth token*****************
+  const { user, isLoading } = useUser();
 
   useEffect(() => {
-    const loadVote = async () => {
-      const auth = getAuth();
-      const newuser = auth.currentUser;
+    const createUserDB = async () => {
+      const token = user && (await user.getIdToken());
+      const headers = token ? { authtoken: token } : {};
 
-      const userid = user && newuser.uid;
-
-      // const token = user && (await user.getIDToken());
-      // const headers = token ? { authtoken: token } : {};
-
-      const response = await axios.post(`/api/user/${userid}`);
-      // const response = await axios.get(`/api/user/${headers}`, { headers });
-      // const newvote = response.data;
-
-      // setVOteInfo(newvote);
-      console.log("**********>chart::" + userid);
+      token && (await axios.get("/api/user/get", { headers }));
     };
-    loadVote();
-  }, []);
+
+    createUserDB();
+  }, [user]);
+
+  //   const loadVote = async () => {
+
+  //     // const token = user && (await user.getIdToken());
+
+  //     // const headers = token ? { authtoken: token } : {};
+  //     // // const response = await axios.get(`/api/user/${headers}`, { headers });
+  //     // const response = await axios.get("/api/user/get", { headers });
+  //     // console.log("%%%%%%%%%%%%******headers:" + headers);
+  //   };
+  //   loadVote();
+  // }, []);
 
   //*************req with auth token*****************
 

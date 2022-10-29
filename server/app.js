@@ -1,4 +1,5 @@
 const express = require("express");
+const userModel = require("./models/users");
 
 const fs = require("fs");
 const admin = require("firebase-admin");
@@ -23,11 +24,18 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(express.static("./public"));
+//Importing connectDB function to connect in cloud mongoDB.
+const connectDB = require("./db/connect");
 
-//using auth token to protect end point
+//Defining the port.
+const port = 8000 || process.env.port;
+
+//*******************user routes*******************
+//middleware
+
 app.use(async (req, res, next) => {
   const { authtoken } = req.headers;
+  console.log("----->>>" + authtoken);
   if (authtoken) {
     try {
       req.user = await admin.auth().verifyIdToken(authtoken);
@@ -40,12 +48,66 @@ app.use(async (req, res, next) => {
   next();
 });
 
+const postVerifyData =
+  // router.route("/api/user/:id").get(getAllUsers).post(postUserData);
+
+  //get method  get request shound create database
+  app.get("/api/user/get", async (req, res) => {
+    // try {
+    //   const { uid } = req.user;
+    //   console.log("^^^^^^^uid:::" + uid);
+    //   // const getUsers = await userModel.find({});
+    //   // res.json(getUsers);
+    //   const createdUser = await userModel.create({ userID: uid });
+    //   res.json(createdUser);
+    // } catch (error) {
+    //   console.log(error);
+    // }
+
+    try {
+      const { uid } = req.user;
+      //Searching if candiate exist in user data.
+      const findIfCandiateExits = await userModel.find({
+        userID: uid,
+      });
+      //Check if candiate exists in user data and if no.
+      if (findIfCandiateExits.length == 0) {
+        const createdUser = await userModel.create({ userID: uid });
+        res.json(createdUser);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
+//user post method
+
+//middleware to prevent non login user access
+app.use((req, res, next) => {
+  if (req.user) {
+    next();
+  } else {
+    res.sendStatus(401);
+  }
+});
+
+app.post("/api/user/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const createdUser = await userModel.create({ userID: id });
+    res.json(createdUser);
+  } catch (error) {
+    console.log(error);
+  }
+});
+//******************************************* */
+
+app.use(express.static("./public"));
+
 //
 const spinner = require("./routes/spinner");
 
-const user = require("./routes/user");
 app.use("/", spinner);
-app.use("/", user);
 
 //Used to display page not found.
 app.use(pageNotFound);
@@ -106,12 +168,6 @@ io.sockets.on("connection", (socket) => {
     }
   });
 });
-
-//Importing connectDB function to connect in cloud mongoDB.
-const connectDB = require("./db/connect");
-
-//Defining the port.
-const port = 8000 || process.env.port;
 
 const start = async () => {
   try {

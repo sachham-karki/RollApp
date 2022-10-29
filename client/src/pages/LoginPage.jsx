@@ -29,15 +29,13 @@ const LoginPage = (props) => {
 
   const logIn = async () => {
     try {
-      await signInWithEmailAndPassword(getAuth(), email, pass);
-      signInWithEmailAndPassword(auth, email, pass)
-        .then((userCredential) => {
-          console.log(userCredential);
-          console.log("user has signed IN");
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      await signInWithEmailAndPassword(auth, email, pass);
+      // .then((userCredential) => {
+
+      // })
+      // .catch((error) => {
+      //   console.log(error);
+      // });
       navigate("/");
     } catch (e) {
       setError(e.message);
