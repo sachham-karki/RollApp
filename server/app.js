@@ -31,6 +31,7 @@ const connectDB = require("./db/connect");
 const port = 8000 || process.env.port;
 
 //*******************user routes*******************
+//*******************user routes*******************
 //middleware
 
 app.use(async (req, res, next) => {
@@ -91,16 +92,76 @@ app.use((req, res, next) => {
   }
 });
 
-app.post("/api/user/:id", async (req, res) => {
+// app.post("/api/user/:id", async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const createdUser = await userModel.create({ userID: id });
+//     res.json(createdUser);
+//   } catch (error) {
+//     console.log(error);
+//   }
+// });
+
+app.patch("/api/incUserVote/patch/:candidate", async (req, res) => {
   try {
-    const { id } = req.params;
-    const createdUser = await userModel.create({ userID: id });
-    res.json(createdUser);
+    const { uid } = req.user;
+
+    const { candidate } = req.params;
+    console.log("--++++++" + uid + candidate);
+    //Searching if candiate exist in user data.
+    const findIfCandiateExits = await userModel.find({
+      userID: uid,
+      "votes.items": candidate,
+    });
+
+    //Check if candiate exists in user data and if no.
+    if (findIfCandiateExits.length == 0) {
+      const getData = { items: candidate };
+      await userModel.updateOne(
+        {
+          userID: uid,
+        },
+        {
+          $push: {
+            votes: getData,
+          },
+        }
+      );
+    }
+
+    //To increase vote count.
+    await userModel.findOneAndUpdate(
+      { userID: uid, "votes.items": candidate },
+      { $inc: { "votes.$.voteCount": 1 } }
+    );
+
+    const getUpdateSpinnerData = await userModel.find({ userID: uid });
+    res.json(getUpdateSpinnerData);
   } catch (error) {
     console.log(error);
   }
 });
+
+//Decrease vote
+
+app.patch("/api/decUserVote/patch/:candidate", async (req, res) => {
+  try {
+    const { uid } = req.user;
+    const { candidate } = req.params;
+
+    //To increase vote count.
+    await userModel.findOneAndUpdate(
+      { userID: uid, "votes.items": candidate },
+      { $inc: { "votes.$.voteCount": -1 } }
+    );
+    res.send("hello");
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 //******************************************* */
+//*******************user routes*******************
 
 app.use(express.static("./public"));
 

@@ -82,29 +82,28 @@ const VoteInput = () => {
   const voteInc = async () => {
     socket.on("connection");
     // Sending data to backend and invoke the function called voteCountUpdate using emit method.
-    socket.emit("voteCountUpdate", "foot");
+    socket.emit("voteCountUpdate", "apple");
     // const updateVoteCount = await axios.patch(`http://localhost:8000/api/spinner/${opt.x}`)
     // setDataOfPieChart(updateVoteCount.data[0].spinner);
-    const auth = getAuth();
-    const newuser = auth.currentUser;
+    const token = user && (await user.getIdToken());
+    const headers = token ? { authtoken: token } : {};
 
-    const userid = user && newuser.uid;
-
-    await axios.patch(
-      `http://localhost:8000/api/incUserVoteCount/${userid}/foot`
-    );
-
-    console.log("---+++++++++++++++" + userid);
+    await axios.patch("/api/incUserVote/patch/apple", null, { headers });
   };
 
   const voteDec = async () => {
     socket.on("connection");
     // Sending data to backend and invoke the function called voteCountUpdate using emit method.
-    socket.emit("voteCountDecrease", "app");
+    socket.emit("voteCountDecrease", "apple");
     // const updateVoteCount = await axios.patch(
     //   `http://localhost:8000/api/decSpinner/app`
     // );
     // setDataOfPieChart(updateVoteCount.data[0].spinner);
+
+    const token = user && (await user.getIdToken());
+    const headers = token ? { authtoken: token } : {};
+
+    await axios.patch("/api/decUserVote/patch/apple", null, { headers });
   };
 
   return (
