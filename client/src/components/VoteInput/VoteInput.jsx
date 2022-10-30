@@ -10,7 +10,6 @@ import { useStateContext } from "../../contexts/ContextProvider";
 import io from "socket.io-client";
 
 const socket = io.connect("http://localhost:8000");
-let votingPower = 10;
 
 const VoteInput = () => {
   const voteInputRef = useRef();
@@ -19,8 +18,23 @@ const VoteInput = () => {
 
   const { user } = useUser();
 
-  const { candidateName, setCandidateName } = useStateContext();
+  let [userVotingPower, setUserVotingPower] = useState(10);
 
+  const { candidateName, setCandidateName } = useStateContext();
+  useEffect(() => {
+    const createUserDB = async () => {
+      const token = user && (await user.getIdToken());
+      const headers = token ? { authtoken: token } : {};
+
+      // token && (await axios.get("/api/user/get", { headers }));
+      const userData = await axios.get("/api/userInfo/get", { headers });
+      console.log("votingPower:" + userData.data[0].votingPower);
+    };
+
+    createUserDB();
+  }, [candidateName]);
+
+  let votingPower = userVotingPower;
   //uid
   // const auth = getAuth();
   // const newuser = auth.currentUser;
@@ -29,19 +43,19 @@ const VoteInput = () => {
 
   //---------axios api****************************************************
 
-  let [votingPower, setVotingPower] = useState(null);
+  // let [votingPower, setVotingPower] = useState(null);
 
-  useEffect(() => {
-    getVotingPower();
-  }, []);
+  // useEffect(() => {
+  //   getVotingPower();
+  // }, []);
 
-  const getVotingPower = async () => {
-    const response = await axios.get("http://localhost:8000/spinner");
+  // const getVotingPower = async () => {
+  //   const response = await axios.get("http://localhost:8000/spinner");
 
-    // setDataOfPieChart(response.data[0].spinner);
-    // setCandidateDocID(response.data[0]._id);
-    // setLoad(true);
-  };
+  //   // setDataOfPieChart(response.data[0].spinner);
+  //   // setCandidateDocID(response.data[0]._id);
+  //   // setLoad(true);
+  // };
 
   //---------axios api***************************************************
 

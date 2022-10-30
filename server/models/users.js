@@ -4,6 +4,10 @@ const userSchema = new mongoose.Schema({
   userID: {
     type: String,
   },
+  votingPower: {
+    type: Number,
+    default: 10,
+  },
   votes: [
     {
       items: {
@@ -11,7 +15,7 @@ const userSchema = new mongoose.Schema({
       },
       voteCount: {
         type: Number,
-        default: 0,
+        default: 1,
       },
     },
   ],

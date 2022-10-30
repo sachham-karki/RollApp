@@ -49,37 +49,37 @@ app.use(async (req, res, next) => {
   next();
 });
 
-const postVerifyData =
-  // router.route("/api/user/:id").get(getAllUsers).post(postUserData);
-
-  //get method  get request shound create database
-  app.get("/api/user/get", async (req, res) => {
-    // try {
-    //   const { uid } = req.user;
-    //   console.log("^^^^^^^uid:::" + uid);
-    //   // const getUsers = await userModel.find({});
-    //   // res.json(getUsers);
-    //   const createdUser = await userModel.create({ userID: uid });
-    //   res.json(createdUser);
-    // } catch (error) {
-    //   console.log(error);
-    // }
-
-    try {
-      const { uid } = req.user;
-      //Searching if candiate exist in user data.
-      const findIfCandiateExits = await userModel.find({
-        userID: uid,
-      });
-      //Check if candiate exists in user data and if no.
-      if (findIfCandiateExits.length == 0) {
-        const createdUser = await userModel.create({ userID: uid });
-        res.json(createdUser);
-      }
-    } catch (error) {
-      console.log(error);
+app.get("/api/user/get", async (req, res) => {
+  try {
+    const { uid } = req.user;
+    //Searching if candiate exist in user data.
+    const findIfCandiateExits = await userModel.find({
+      userID: uid,
+    });
+    //Check if candiate exists in user data and if no.
+    if (findIfCandiateExits.length == 0) {
+      const createdUser = await userModel.create({ userID: uid });
+      res.json(createdUser);
     }
-  });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+app.get("/api/userInfo/get", async (req, res) => {
+  try {
+    const { uid } = req.user;
+    const votingPower = await userModel.find(
+      { userID: uid },
+      { votingPower: 1 }
+    );
+
+    res.json(votingPower);
+    console.log(">>>>>>>" + votingPower);
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 //user post method
 
@@ -91,16 +91,6 @@ app.use((req, res, next) => {
     res.sendStatus(401);
   }
 });
-
-// app.post("/api/user/:id", async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     const createdUser = await userModel.create({ userID: id });
-//     res.json(createdUser);
-//   } catch (error) {
-//     console.log(error);
-//   }
-// });
 
 app.patch("/api/incUserVote/patch/:candidate", async (req, res) => {
   try {
