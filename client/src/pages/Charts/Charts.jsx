@@ -83,7 +83,7 @@ const Charts = () => {
     setLoad(true);
   };
 
-  console.log(dataOfPieChart);
+  // console.log(dataOfPieChart);
 
   const vote = async (opt) => {
     setCandidateName(opt.x);

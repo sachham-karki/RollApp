@@ -69,10 +69,7 @@ app.get("/api/user/get", async (req, res) => {
 app.get("/api/userInfo/get", async (req, res) => {
   try {
     const { uid } = req.user;
-    const votingPower = await userModel.find(
-      { userID: uid },
-      { votingPower: 1 }
-    );
+    const votingPower = await userModel.find({ userID: uid });
 
     res.json(votingPower);
     console.log(">>>>>>>" + votingPower);
@@ -122,7 +119,11 @@ app.patch("/api/incUserVote/patch/:candidate", async (req, res) => {
     //To increase vote count.
     await userModel.findOneAndUpdate(
       { userID: uid, "votes.items": candidate },
-      { $inc: { "votes.$.voteCount": 1 } }
+      { $inc: { "votes.$.voteCount": 1 } },
+      {
+        new: true,
+        useFindAndModify: false,
+      }
     );
 
     const getUpdateSpinnerData = await userModel.find({ userID: uid });
@@ -142,9 +143,30 @@ app.patch("/api/decUserVote/patch/:candidate", async (req, res) => {
     //To increase vote count.
     await userModel.findOneAndUpdate(
       { userID: uid, "votes.items": candidate },
-      { $inc: { "votes.$.voteCount": -1 } }
+      { $inc: { "votes.$.voteCount": -1 } },
+      {
+        new: true,
+        useFindAndModify: false,
+      }
     );
     res.send("hello");
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+app.put("/api/userInfo/put/:votingPower", async (req, res) => {
+  try {
+    const { uid } = req.user;
+    const { votingPower } = req.params;
+    await userModel.updateOne(
+      { uid },
+      {
+        $set: {
+          votingPower: votingPower,
+        },
+      }
+    );
   } catch (error) {
     console.log(error);
   }

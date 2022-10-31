@@ -19,6 +19,7 @@ const VoteInput = () => {
   const { user } = useUser();
 
   let [userVotingPower, setUserVotingPower] = useState(10);
+  let votingPower = userVotingPower;
 
   const { candidateName, setCandidateName } = useStateContext();
   useEffect(() => {
@@ -28,36 +29,28 @@ const VoteInput = () => {
 
       // token && (await axios.get("/api/user/get", { headers }));
       const userData = await axios.get("/api/userInfo/get", { headers });
+      const vPower = userData.data[0].votingPower;
+      setUserVotingPower(vPower);
       console.log("votingPower:" + userData.data[0].votingPower);
+      console.log("data:" + userData.data[0].votes[0]);
     };
 
     createUserDB();
   }, [candidateName]);
 
-  let votingPower = userVotingPower;
-  //uid
-  // const auth = getAuth();
-  // const newuser = auth.currentUser;
+  useEffect(() => {
+    const createUserDB = async () => {
+      const token = user && (await user.getIdToken());
+      const headers = token ? { authtoken: token } : {};
 
-  // const userid = newuser.uid;
+      // token && (await axios.get("/api/user/get", { headers }));
+      await axios.put(`/api/userInfo/put/${votingPower}`, null, {
+        headers,
+      });
+    };
 
-  //---------axios api****************************************************
-
-  // let [votingPower, setVotingPower] = useState(null);
-
-  // useEffect(() => {
-  //   getVotingPower();
-  // }, []);
-
-  // const getVotingPower = async () => {
-  //   const response = await axios.get("http://localhost:8000/spinner");
-
-  //   // setDataOfPieChart(response.data[0].spinner);
-  //   // setCandidateDocID(response.data[0]._id);
-  //   // setLoad(true);
-  // };
-
-  //---------axios api***************************************************
+    createUserDB();
+  }, [votingPower]);
 
   const incrementWeight = () => {
     if (voteInputRef.current.value < 11) {

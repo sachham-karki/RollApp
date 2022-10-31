@@ -15,7 +15,7 @@ const userSchema = new mongoose.Schema({
       },
       voteCount: {
         type: Number,
-        default: 1,
+        default: 0,
       },
     },
   ],

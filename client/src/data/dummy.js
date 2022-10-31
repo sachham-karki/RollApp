@@ -515,7 +515,7 @@ export const links = [
     title: "Create Event",
     links: [
       {
-        name: "Conduct-Voting",
+        name: "Home",
         icon: <MdHowToVote />,
       },
     ],
@@ -533,7 +533,7 @@ export const links = [
       //   icon: <IoMdContacts />,
       // },
       {
-        name: "participant",
+        name: "User Decisions",
         icon: <RiContactsLine />,
       },
     ],
@@ -560,7 +560,7 @@ export const links = [
   //   ],
   // },
   {
-    title: "Charts",
+    title: "Decision",
     links: [
       // {
       //   name: "line",
